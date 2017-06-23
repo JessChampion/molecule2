@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 import World from './world/World';
 import Controls from './Controls';
 import {loadModel} from  './model/actions'
-import {createViewModel} from  './viewModel/actions'
+import {createDefaultViewModel} from  './viewModel/actions'
 
 import store from './store';
 
@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch) => {
             dispatch(loadModel(model));
         },
         onLoaded: (model) => {
-            dispatch(createViewModel(model));
+            dispatch(createDefaultViewModel(model));
         }
     };
 };
