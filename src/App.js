@@ -4,6 +4,9 @@ import {connect} from 'react-redux';
 import World from './world/World';
 import Controls from './Controls';
 import {loadModel} from  './model/actions'
+import {createViewModel} from  './viewModel/actions'
+
+import store from './store';
 
 const testJson = {
     people: [
@@ -42,19 +45,31 @@ const testJson = {
     ]
 };
 
+const mapStateToProps = (state) => {
+    return {
+        model: state.model
+    };
+};
+
 const mapDispatchToProps = (dispatch) => {
     return {
-        onLoad: () => {
-            dispatch(loadModel(testJson));
+        onLoading: (model) => {
+            dispatch(loadModel(model));
+        },
+        onLoaded: (model) => {
+            dispatch(createViewModel(model));
         }
     };
 };
 
 class App extends Component {
     componentWillMount() {
-        this.props.onLoad();
+        this.props.onLoading(testJson);
     }
 
+    componentDidUpdate() {
+        this.props.onLoaded(this.props.model.people);
+    }
 
     render() {
         return (
@@ -62,8 +77,8 @@ class App extends Component {
                 <World/>
                 <Controls/>
             </div>
-        );
+        )
     }
 }
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

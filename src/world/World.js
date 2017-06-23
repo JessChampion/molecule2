@@ -8,9 +8,7 @@ import Atom from './Atom';
 const SPEED = 0.005;
 
 const mapStateToProps = (state) => {
-    console.log('here2');
-    console.log(state);
-    return state.model;
+    return state.viewModel;
 };
 
 class World extends Component {
@@ -18,23 +16,23 @@ class World extends Component {
     super();
     this.state = {rotation: 0};
   }
+
   componentDidMount() {
-      var tick = () => {
-      this.setState({rotation: this.state.rotation + Math.PI*SPEED});
+      var tick = () => {//This is where we will bind the animation
+      // this.setState({rotation: this.state.rotation + Math.PI*SPEED});
       requestAnimationFrame(tick);
     };
     tick();
   }
 
-  renderAtom(id, pos){
-      return (<Atom key={id} rotation={this.state.rotation} x={pos} y={pos}/>);
+  renderAtom(id, sprite, pos){
+      return (<Atom key={id} sprite={sprite} x={pos} y={pos}/>);
   }
 
   render() {
     let pos = 100;
-
-    let content = this.props.people ?
-        this.props.people.map((person, index) => this.renderAtom(person.id, 100*(index+1))) : '';
+    const atoms = this.props.atoms ? this.props.atoms : [];
+    const content = atoms.map((person, index) => this.renderAtom(person.id, person.sprite, 100*(index+1)));
     return (
         <Stage backgroundcolor={0xa08080} height={500} width={800} interactive={true}>
         {content}
