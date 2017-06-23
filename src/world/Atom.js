@@ -11,7 +11,6 @@ export default class Atom extends Component {
         } = this.props;
         return (
             <Sprite
-                key={id}
                 image={sprite}
                 x={x}
                 y={y}
